@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doce Aroma · Cafeteria</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif; }
+
+    :root {
+      --creme: #FEF9F0;
+      --rosa-pastel: #F9E0E0;
+      --lavanda: #E6D7F0;
+      --verde-menta: #D9E9DF;
+      --pessego: #FBE9E0;
+      --azul-bebe: #DEEBF7;
+      --texto-escuro: #4D3E3E;
+      --texto-suave: #6B5B5B;
+      --sombra: 0 12px 28px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.03);
+      --transicao: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+    }
+
+    body {
+      background-color: var(--creme);
+      color: var(--texto-escuro);
+      min-height: 100vh;
+      overflow-x: hidden;
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes pop { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+    .app-container { max-width: 1280px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+    /* ---------- HEADER ---------- */
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem; margin-bottom: 2.5rem;
+      animation: slideUp 0.7s ease;
+    }
+    .logo { display: flex; align-items: center; gap: 0.75rem; }
+    .logo-icon {
+      font-size: 2.2rem; background: var(--rosa-pastel);
+      width: 54px; height: 54px; border-radius: 30px;
+      display: flex; align-items: center; justify-content: center;
+      transition: var(--transicao); box-shadow: var(--sombra);
+    }
+    .logo-icon:hover { transform: rotate(8deg) scale(1.05); }
+    .logo h1 { font-size: 1.8rem; font-weight: 300; letter-spacing: -0.5px; }
+    .logo h1 span { font-weight: 600; color: #a88080; }
+
+    .user-nav {
+      display: flex; align-items: center; gap: 1rem;
+      background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(6px);
+      padding: 0.5rem 1rem 0.5rem 1.4rem; border-radius: 60px;
+      box-shadow: var(--sombra); transition: var(--transicao);
+    }
+    .user-greeting {
+      font-size: 0.95rem; background: var(--verde-menta);
+      padding: 0.4rem 1rem; border-radius: 40px;
+    }
+
+    .btn {
+      border: none; background: transparent; font-size: 0.95rem;
+      padding: 0.6rem 1.2rem; border-radius: 30px; cursor: pointer;
+      transition: var(--transicao); font-weight: 400; color: var(--texto-escuro);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-primary {
+      background: var(--lavanda); color: #3e2e3e;
+      font-weight: 500; box-shadow: 0 4px 12px rgba(200, 170, 200, 0.25);
+    }
+    .btn-primary:hover { background: #d9c4e6; transform: translateY(-2px); }
+    .btn-outline { border: 1.5px solid var(--lavanda); }
+    .btn-outline:hover { background: var(--rosa-pastel); border-color: var(--rosa-pastel); transform: translateY(-2px); }
+
+    /* ---------- AUTH ---------- */
+    .auth-wrapper {
+      display: flex; justify-content: center; align-items: center;
+      min-height: 520px; padding: 2rem 1rem;
+    }
+    .auth-card {
+      background: #fffdf9; border-radius: 48px;
+      box-shadow: 0 40px 50px -20px rgba(180, 150, 150, 0.25);
+      padding: 3rem 2.5rem; width: 100%; max-width: 460px;
+      border: 1px solid #fff7f0; animation: slideUp 0.6s ease;
+    }
+    .auth-card h2 { font-weight: 300; font-size: 2rem; margin-bottom: 2rem; text-align: center; }
+    .auth-card h2 span { font-weight: 600; color: #a88080; }
+    .input-group { margin-bottom: 1.3rem; }
+    .input-group label { display: block; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--texto-suave); padding-left: 8px; }
+    .input-group input {
+      width: 100%; padding: 1rem 1.4rem; border: 1.5px solid #f0e0d6;
+      background: #fff; border-radius: 50px; font-size: 1rem;
+      transition: var(--transicao); outline: none; color: var(--texto-escuro);
+    }
+    .input-group input:focus { border-color: var(--lavanda); box-shadow: 0 0 0 4px rgba(230,215,240,0.4); }
+    .auth-btn {
+      width: 100%; padding: 1rem; border-radius: 50px; font-size: 1.05rem;
+      font-weight: 500; background: var(--rosa-pastel); border: none;
+      color: #4d3e3e; cursor: pointer; transition: var(--transicao);
+      margin-top: 0.6rem; box-shadow: 0 6px 14px rgba(230,190,190,0.3);
+    }
+    .auth-btn:hover { background: #f2cece; transform: translateY(-2px); }
+    .auth-footer { text-align: center; margin-top: 1.6rem; font-size: 0.95rem; color: var(--texto-suave); }
+    .auth-footer a { color: #a88080; font-weight: 500; text-decoration: none; border-bottom: 2px solid transparent; transition: var(--transicao); cursor: pointer; }
+    .auth-footer a:hover { border-bottom-color: var(--lavanda); }
+    .error-message {
+      color: #c97a7a; font-size: 0.9rem; margin-top: 1rem;
+      text-align: center; min-height: 1.4rem; background: #fff0f0;
+      border-radius: 30px; padding: 0.3rem;
+    }
+
+    /* ---------- LOJA (logado) ---------- */
+    .store { display: none; animation: fadeIn 0.6s ease; }
+    .store.active { display: block; }
+
+    .hero {
+      display: flex; flex-wrap: wrap; align-items: center;
+      justify-content: space-between; gap: 2rem;
+      background: linear-gradient(145deg, #fdf5ee, #f3e9e0);
+      padding: 2.5rem 2.5rem; border-radius: 48px;
+      box-shadow: var(--sombra); margin-bottom: 3rem;
+      animation: slideUp 0.8s ease;
+    }
+    .hero-text h2 { font-size: 2.4rem; font-weight: 300; line-height: 1.2; margin-bottom: 1rem; }
+    .hero-text h2 strong {
+      font-weight: 600;
+      background: linear-gradient(120deg, #d9b8b8, #b8a0c0);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-text p { font-size: 1.05rem; color: var(--texto-suave); max-width: 480px; }
+    .hero-emoji { font-size: 5rem; animation: float 5s infinite ease-in-out; }
+
+    .section-title {
+      font-size: 1.7rem; font-weight: 300; margin-bottom: 1.8rem;
+      position: relative; display: inline-block;
+    }
+    .section-title::after {
+      content: ''; position: absolute; bottom: -8px; left: 0;
+      width: 60%; height: 4px; background: var(--rosa-pastel); border-radius: 4px;
+    }
+
+    .products-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.8rem; margin-bottom: 3.5rem;
+    }
+    .product {
+      background: #fff; border-radius: 28px; padding: 1.6rem 1.4rem;
+      box-shadow: var(--sombra); transition: var(--transicao);
+      border: 1px solid rgba(255,255,255,0.9);
+      display: flex; flex-direction: column;
+    }
+    .product:hover { transform: translateY(-8px); box-shadow: 0 22px 30px -10px rgba(160,130,130,0.18); }
+    .product-icon { font-size: 2.8rem; margin-bottom: 0.8rem; }
+    .product h3 { font-weight: 500; font-size: 1.15rem; color: #5a4545; margin-bottom: 0.4rem; }
+    .product p { font-size: 0.88rem; color: var(--texto-suave); margin-bottom: 1rem; flex: 1; }
+    .product .price-row {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: auto;
+    }
+    .product .price { font-weight: 600; font-size: 1.25rem; color: #a88080; }
+    .product .add-btn {
+      background: var(--verde-menta); border: none; cursor: pointer;
+      padding: 0.5rem 0.9rem; border-radius: 30px; font-size: 0.9rem;
+      font-weight: 500; color: #3e4e3e; transition: var(--transicao);
+    }
+    .product .add-btn:hover { background: #c6dfcd; transform: scale(1.05); }
+
+    /* ---------- CARRINHO ---------- */
+    .cart-panel {
+      background: #fff; border-radius: 32px; padding: 1.8rem;
+      box-shadow: var(--sombra); margin-bottom: 2rem;
+      border: 1px solid #fff;
+    }
+    .cart-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1.2rem;
+    }
+    .cart-header h2 { font-weight: 400; font-size: 1.4rem; }
+    .cart-total-badge {
+      background: var(--pessego); padding: 0.4rem 1rem;
+      border-radius: 30px; font-weight: 600; color: #a88080;
+    }
+    .cart-empty { color: #bba8a8; font-size: 0.95rem; text-align: center; padding: 1.2rem 0; }
+    .cart-items { display: flex; flex-direction: column; gap: 0.7rem; }
+    .cart-item {
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--creme); padding: 0.7rem 1rem;
+      border-radius: 20px; font-size: 0.92rem;
+      animation: pop 0.3s ease;
+    }
+    .cart-item-info { display: flex; gap: 0.7rem; align-items: center; }
+    .cart-item-info .qtd {
+      background: var(--azul-bebe); padding: 0.15rem 0.6rem;
+      border-radius: 20px; font-weight: 600; font-size: 0.85rem;
+    }
+    .cart-item .remove-btn {
+      background: transparent; border: none; cursor: pointer;
+      color: #c97a7a; font-size: 1.1rem; transition: var(--transicao);
+    }
+    .cart-item .remove-btn:hover { transform: scale(1.2); }
+    .cart-actions { display: flex; justify-content: flex-end; margin-top: 1.4rem; }
+    .checkout-btn {
+      background: var(--lavanda); border: none; cursor: pointer;
+      padding: 0.9rem 2rem; border-radius: 40px; font-weight: 500;
+      font-size: 1rem; color: #3e2e3e; transition: var(--transicao);
+    }
+    .checkout-btn:hover { background: #d9c4e6; transform: translateY(-2px); }
+    .checkout-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: var(--verde-menta); color: #3e4e3e;
+      padding: 1rem 1.6rem; border-radius: 40px;
+      box-shadow: 0 15px 30px -10px rgba(0,0,0,0.15);
+      font-weight: 500; z-index: 100;
+      animation: pop 0.3s ease;
+      display: none;
+    }
+    .toast.show { display: block; }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 700px) {
+      .hero-text h2 { font-size: 1.8rem; }
+      .logo h1 { font-size: 1.4rem; }
+      .auth-card { padding: 2rem 1.5rem; }
+      .hero-emoji { font-size: 3.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- HEADER -->
+    <header>
+      <div class="logo">
+        <div class="logo-icon">☕</div>
+        <h1>Doce <span>Aroma</span></h1>
+      </div>
+      <div class="user-nav" id="userNav"></div>
+    </header>
+
+    <!-- AUTH (não logado) -->
+    <div class="auth-wrapper" id="authWrapper">
+      <!-- CADASTRO -->
+      <div class="auth-card" id="registerCard">
+        <h2>Seja <span>bem-vindo</span> ☕</h2>
+        <form id="registerForm">
+          <div class="input-group">
+            <label>Nome completo</label>
+            <input type="text" id="regName" placeholder="Como podemos te chamar?" required>
+          </div>
+          <div class="input-group">
+            <label>E-mail</label>
+            <input type="email" id="regEmail" placeholder="seu@email.com" required>
+          </div>
+          <div class="input-group">
+            <label>Senha</label>
+            <input type="password" id="regPassword" placeholder="Crie uma senha (min. 4)" required>
+          </div>
+          <button type="submit" class="auth-btn">Cadastrar</button>
+          <div class="error-message" id="registerError"></div>
+        </form>
+        <div class="auth-footer">Já tem conta? <a id="goToLogin">Faça login</a></div>
+      </div>
+
+      <!-- LOGIN -->
+      <div class="auth-card hidden" id="loginCard">
+        <h2>Bom te <span>ver</span> de novo</h2>
+        <form id="loginForm">
+          <div class="input-group">
+            <label>E-mail</label>
+            <input type="email" id="loginEmail" placeholder="seu@email.com" required>
+          </div>
+          <div class="input-group">
+            <label>Senha</label>
+            <input type="password" id="loginPassword" placeholder="Sua senha" required>
+          </div>
+          <button type="submit" class="auth-btn">Entrar</button>
+          <div class="error-message" id="loginError"></div>
+        </form>
+        <div class="auth-footer">Ainda não tem conta? <a id="goToRegister">Cadastre-se</a></div>
+      </div>
+    </div>
+
+    <!-- LOJA (logado) -->
+    <main class="store" id="storeContent">
+      <div class="hero">
+        <div class="hero-text">
+          <h2>Um café <strong>suave</strong> para o seu dia</h2>
+          <p>Cápsulas especiais e grãos selecionados. Escolha seus favoritos e monte seu pedido.</p>
+        </div>
+        <div class="hero-emoji">🧋</div>
+      </div>
+
+      <h2 class="section-title">☕ Nossos Cafés</h2>
+      <div class="products-grid" id="coffeeGrid"></div>
+
+      <h2 class="section-title">🌱 Cápsulas</h2>
+      <div class="products-grid" id="capsuleGrid"></div>
+
+      <!-- CARRINHO -->
+      <div class="cart-panel">
+        <div class="cart-header">
+          <h2>🛒 Seu carrinho</h2>
+          <span class="cart-total-badge" id="cartTotalBadge">R$ 0,00</span>
+        </div>
+        <div id="cartContent">
+          <div class="cart-empty">Seu carrinho está vazio. Adicione uma delícia!</div>
+        </div>
+        <div class="cart-actions">
+          <button class="checkout-btn" id="checkoutBtn" disabled>Finalizar pedido</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    (function () {
+      // ---------- STORAGE ----------
+      const STORAGE_USERS = 'doceAromaUsers';
+      const STORAGE_LOGGED = 'doceAromaLoggedUser';
+      const STORAGE_CART = 'doceAromaCart';
+
+      const getUsers = () => JSON.parse(localStorage.getItem(STORAGE_USERS) || '[]');
+      const saveUsers = (u) => localStorage.setItem(STORAGE_USERS, JSON.stringify(u));
+      const getLogged = () => JSON.parse(localStorage.getItem(STORAGE_LOGGED) || 'null');
+      const setLogged = (u) => u ? localStorage.setItem(STORAGE_LOGGED, JSON.stringify(u)) : localStorage.removeItem(STORAGE_LOGGED);
+
+      // ---------- PRODUTOS ----------
+      const products = [
+        // Cafés
+        { id: 'c1', type: 'cafe', name: 'Café Bourbon',   desc: 'Notas de chocolate e caramelo.',      price: 32.90, icon: '☕' },
+        { id: 'c2', type: 'cafe', name: 'Café Catuaí',    desc: 'Doçura natural e acidez equilibrada.', price: 29.90, icon: '☕' },
+        { id: 'c3', type: 'cafe', name: 'Café Geisha',    desc: 'Floral e delicado, edição especial.',  price: 59.90, icon: '☕' },
+        { id: 'c4', type: 'cafe', name: 'Blend da Casa',  desc: 'Nosso clássico encorpado.',            price: 24.90, icon: '☕' },
+        // Cápsulas
+        { id: 'k1', type: 'capsula', name: 'Cápsula Lavanda',  desc: 'Intensidade 5 · 10 unidades.',  price: 18.90, icon: '🌱' },
+        { id: 'k2', type: 'capsula', name: 'Cápsula Caramelo', desc: 'Intensidade 7 · 10 unidades.',  price: 21.90, icon: '🌱' },
+        { id: 'k3', type: 'capsula', name: 'Cápsula Baunilha', desc: 'Intensidade 4 · 10 unidades.',  price: 19.90, icon: '🌱' },
+        { id: 'k4', type: 'capsula', name: 'Cápsula Menta',    desc: 'Intensidade 6 · 10 unidades.',  price: 22.90, icon: '🌱' },
+      ];
+
+      // ---------- ELEMENTOS ----------
+      const authWrapper = document.getElementById('authWrapper');
+      const storeContent = document.getElementById('storeContent');
+      const userNav = document.getElementById('userNav');
+      const registerCard = document.getElementById('registerCard');
+      const loginCard = document.getElementById('loginCard');
+      const toast = document.getElementById('toast');
+
+      const coffeeGrid = document.getElementById('coffeeGrid');
+      const capsuleGrid = document.getElementById('capsuleGrid');
+      const cartContent = document.getElementById('cartContent');
+      const cartTotalBadge = document.getElementById('cartTotalBadge');
+      const checkoutBtn = document.getElementById('checkoutBtn');
+
+      // ---------- CARRINHO ----------
+      let cart = JSON.parse(localStorage.getItem(STORAGE_CART) || '[]');
+
+      const saveCart = () => localStorage.setItem(STORAGE_CART, JSON.stringify(cart));
+
+      const formatBRL = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+      const cartTotal = () => cart.reduce((s, i) => s + i.price * i.qty, 0);
+
+      const showToast = (msg) => {
+        toast.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => toast.classList.remove('show'), 2200);
+      };
+
+      // ---------- RENDER PRODUTOS ----------
+      function renderProducts() {
+        const build = (type, container) => {
+          container.innerHTML = products
+            .filter(p => p.type === type)
+            .map(p => `
+              <div class="product">
+                <div class="product-icon">${p.icon}</div>
+                <h3>${p.name}</h3>
+                <p>${p.desc}</p>
+                <div class="price-row">
+                  <span class="price">${formatBRL(p.price)}</span>
+                  <button class="add-btn" data-id="${p.id}">+ Adicionar</button>
+                </div>
+              </div>
+            `).join('');
+        };
+        build('cafe', coffeeGrid);
+        build('capsula', capsuleGrid);
+
+        document.querySelectorAll('.add-btn').forEach(btn => {
+          btn.addEventListener('click', () => addToCart(btn.dataset.id));
+        });
+      }
+
+      function addToCart(id) {
+        const p = products.find(x => x.id === id);
+        if (!p) return;
+        const existing = cart.find(i => i.id === id);
+        if (existing) existing.qty++;
+        else cart.push({ id: p.id, name: p.name, price: p.price, icon: p.icon, qty: 1 });
+        saveCart();
+        renderCart();
+        showToast(`✨ ${p.name} adicionado!`);
+      }
+
+      function removeFromCart(id) {
+        cart = cart.filter(i => i.id !== id);
+        saveCart();
+        renderCart();
+      }
+
+      function renderCart() {
+        if (cart.length === 0) {
+          cartContent.innerHTML = '<div class="cart-empty">Seu carrinho está vazio. Adicione uma delícia!</div>';
+          checkoutBtn.disabled = true;
+        } else {
+          cartContent.innerHTML = `
+            <div class="cart-items">
+              ${cart.map(i => `
+                <div class="cart-item">
+                  <div class="cart-item-info">
+                    <span>${i.icon}</span>
+                    <span>${i.name}</span>
+                    <span class="qtd">x${i.qty}</span>
+                    <span style="color:#a88080;font-weight:600;">${formatBRL(i.price * i.qty)}</span>
+                  </div>
+                  <button class="remove-btn" data-id="${i.id}" title="Remover">✕</button>
+                </div>
+              `).join('')}
+            </div>
+          `;
+          document.querySelectorAll('.remove-btn').forEach(btn => {
+            btn.addEventListener('click', () => removeFromCart(btn.dataset.id));
+          });
+          checkoutBtn.disabled = false;
+        }
+        cartTotalBadge.textContent = formatBRL(cartTotal());
+      }
+
+      checkoutBtn.addEventListener('click', () => {
+        if (cart.length === 0) return;
+        showToast(`✅ Pedido de ${formatBRL(cartTotal())} realizado! Obrigado 💜`);
+        cart = [];
+        saveCart();
+        renderCart();
+      });
+
+      // ---------- UI / LOGIN ----------
+      function updateUI() {
+        const user = getLogged();
+        if (user) {
+          authWrapper.classList.add('hidden');
+          storeContent.classList.add('active');
+          userNav.innerHTML = `
+            <span class="user-greeting">Olá, ${user.name.split(' ')[0]} ✨</span>
+            <button class="btn btn-outline" id="logoutBtn">Sair</button>
+          `;
+          document.getElementById('logoutBtn').addEventListener('click', logout);
+          renderProducts();
+          renderCart();
+        } else {
+          authWrapper.classList.remove('hidden');
+          storeContent.classList.remove('active');
+          userNav.innerHTML = `
+            <button class="btn btn-primary" id="navLoginBtn">Login</button>
+            <button class="btn btn-outline" id="navRegisterBtn">Cadastre-se</button>
+          `;
+          document.getElementById('navLoginBtn').addEventListener('click', showLogin);
+          document.getElementById('navRegisterBtn').addEventListener('click', showRegister);
+        }
+      }
+
+      function showLogin() {
+        registerCard.classList.add('hidden');
+        loginCard.classList.remove('hidden');
+        document.getElementById('registerError').textContent = '';
+        document.getElementById('loginError').textContent = '';
+      }
+
+      function showRegister() {
+        loginCard.classList.add('hidden');
+        registerCard.classList.remove('hidden');
+        document.getElementById('registerError').textContent = '';
+        document.getElementById('loginError').textContent = '';
+      }
+
+      document.getElementById('goToLogin').addEventListener('click', showLogin);
+      document.getElementById('goToRegister').addEventListener('click', showRegister);
+
+      // ---------- CADASTRO ----------
+      document.getElementById('registerForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('regName').value.trim();
+        const email = document.getElementById('regEmail').value.trim().toLowerCase();
+        const password = document.getElementById('regPassword').value;
+        const error = document.getElementById('registerError');
+
+        if (!name || !email || !password) { error.textContent = 'Preencha todos os campos.'; return; }
+        if (password.length < 4) { error.textContent = 'A senha precisa ter ao menos 4 caracteres.'; return; }
+        if (!email.includes('@') || !email.includes('.')) { error.textContent = 'Insira um e-mail válido.'; return; }
+
+        const users = getUsers();
+        if (users.some(u => u.email === email)) { error.textContent = 'E-mail já cadastrado. Faça login.'; return; }
+
+        const newUser = { name, email, password };
+        users.push(newUser);
+        saveUsers(users);
+
+        error.textContent = '';
+        document.getElementById('regName').value = '';
+        document.getElementById('regEmail').value = '';
+        document.getElementById('regPassword').value = '';
+
+        setLogged(newUser);
+        updateUI();
+        showToast(`Bem-vindo(a), ${name.split(' ')[0]}! ☕`);
+      });
+
+      // ---------- LOGIN ----------
+      document.getElementById('loginForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+        const password = document.getElementById('loginPassword').value;
+        const error = document.getElementById('loginError');
+
+        if (!email || !password) { error.textContent = 'Preencha e-mail e senha.'; return; }
+
+        const user = getUsers().find(u => u.email === email && u.password === password);
+        if (!user) { error.textContent = 'E-mail ou senha incorretos.'; return; }
+
+        error.textContent = '';
+        document.getElementById('loginEmail').value = '';
+        document.getElementById('loginPassword').value = '';
+
+        setLogged(user);
+        updateUI();
+        showToast(`Bom te ver, ${user.name.split(' ')[0]}! ☕`);
+      });
+
+      // ---------- LOGOUT ----------
+      function logout() {
+        setLogged(null);
+        updateUI();
+        showRegister();
+        showToast('Você saiu. Até breve! 👋');
+      }
+
+      // ---------- INIT ----------
+      updateUI();
+    })();
+  </script>
+</body>
+</html>
